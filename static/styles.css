@@ -1,0 +1,179 @@
+body {
+    background-color: #1c1c1c;
+    color: #f0f0f0;
+}
+
+.navbar {
+    background-image: url("/static/header-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #003366; /* Deep blue */
+}
+
+.main-header {
+    height: 80vh;
+}
+
+.result-header {
+    height: 25vh;
+}
+
+.header-image .navbar-title-box {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+    animation: dance 2s infinite; /* Apply animation */
+}
+
+.header-image .navbar-brand {
+    color: #003366 !important; /* Deep blue */
+    background: linear-gradient(45deg, #003366, #0056b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4em;
+    text-align: center;
+    width: 100%;
+    font-family: 'Adobe Caslon Pro', serif;
+}
+
+@keyframes dance {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes expandShrink {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.navbar-nav .nav-link {
+    color: #f0f0f0 !important;
+}
+
+.container {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2 {
+    color: #f0f0f0;
+}
+
+.btn-primary {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #444;
+    border-color: #444;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #003d7a;
+    border-color: #003d7a;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+    background-color: #333;
+    border-color: #333;
+}
+
+.list-group-item {
+    background-color: #3c3c3c;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+.form-control, .form-control-file {
+    background-color: #3c3c3c;
+    color: #f0f0f0;
+    border-color: #444;
+}
+
+label {
+    color: #f0f0f0;
+}
+
+/* Round Buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Double the gap */
+    margin-top: 20px;
+}
+
+.round-button {
+    width: 160px; /* Double the size */
+    height: 160px; /* Double the size */
+    background-color: #0056b3;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.round-button img.button-icon {
+    width: 80px; /* Adjust to fit within the button */
+    height: 80px; /* Adjust to fit within the button */
+}
+
+.round-button:hover, .round-button:focus, .round-button:active {
+    background-color: #003d7a;
+}
+
+/* Voice Button Recording Animation */
+.round-button.recording {
+    animation: blink 1s infinite, expandShrink 1s infinite;
+}
+
+/* Chat Button Chatting Animation */
+.round-button.chatting {
+    animation: blink 1s infinite, expandShrink 1s infinite;
+}
+
+/* Chat Popup */
+.popup {
+    display: none;
+    position: fixed;
+    bottom: 120px;
+    right: 120px;
+    background-color: #2c2c2c;
+    border: 2px solid #444;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 300px; /* Larger width */
+}
+
+.popup-header {
+    text-align: center;
+    color: #f0f0f0;
+}
+
+.popup-body {
+    color: #f0f0f0;
+}
+
+.popup p {
+    margin-bottom: 20px;
+}

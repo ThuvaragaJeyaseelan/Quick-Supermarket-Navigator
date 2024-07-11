@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick-Supermarket-Navigator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Adobe+Caslon+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light header-image main-header">
+        <div class="navbar-title-box">
+            <a class="navbar-brand" href="#" style="font-family: 'Adobe Caslon Pro', serif; font-size: 5em; font-weight: bold; text-align: center; width: 100%;">Quick-Supermarket-Navigator</a>
+        </div>
+    </nav>
+    <div class="container text-center">
+        <div class="button-container">
+            <button id="chat-btn" class="round-button">
+                <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat" class="button-icon">
+            </button>
+            <button id="voice-btn" class="round-button">
+                <img src="{{ url_for('static', filename='voice-icon.png') }}" alt="Voice" class="button-icon">
+            </button>
+            <button id="image-btn" class="round-button">
+                <img src="{{ url_for('static', filename='image-icon.png') }}" alt="Image" class="button-icon">
+            </button>
+        </div>
+        <div id="chat-popup" class="popup">
+            <div class="popup-header">
+                <h4>Welcome!</h4>
+            </div>
+            <div class="popup-body">
+                <p>Hello! Please enter your shopping list below.</p>
+                <form action="/find_path" method="post" id="item-form">
+                    <div class="form-group">
+                        <label for="items">Enter items to buy:</label>
+                        <input type="text" class="form-control" id="items" name="items" placeholder="e.g., milk, bread, apple" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Find Shortest Path</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('voice-btn').onclick = function() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = function() {
+                    const voiceButton = document.getElementById('voice-btn');
+                    voiceButton.classList.add('recording');
+                };
+
+                recognition.onresult = function(event) {
+                    const speechResult = event.results[0][0].transcript;
+                    document.getElementById('items').value = speechResult;
+                    document.getElementById('item-form').submit();
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error', event);
+                };
+
+                recognition.onend = function() {
+                    const voiceButton = document.getElementById('voice-btn');
+                    voiceButton.classList.remove('recording');
+                };
+
+                recognition.start();
+            } else {
+                alert('Your browser does not support speech recognition.');
+            }
+        };
+
+        document.getElementById('chat-btn').onclick = function() {
+            const popup = document.getElementById('chat-popup');
+            const chatButton = document.getElementById('chat-btn');
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
+                chatButton.classList.remove('chatting');
+            } else {
+                popup.style.display = 'block';
+                popup.style.bottom = '120px';
+                popup.style.right = '120px';
+                chatButton.classList.add('chatting');
+            }
+        };
+
+        document.getElementById('image-btn').onclick = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                const formData = new FormData();
+                formData.append('image', file);
+
+                fetch('/upload_image', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.text())
+                  .then(data => {
+                      document.open();
+                      document.write(data);
+                      document.close();
+                  })
+                  .catch(error => console.error('Error:', error));
+            };
+            input.click();
+        };
+    </script>
+</body>
+</html>
